@@ -1,2 +1,2 @@
-# MC-Mabinogi
-A library used by minecraft mods made by Mabinogi
+# Mabinogi Core
+A library required by my other minecraft mods

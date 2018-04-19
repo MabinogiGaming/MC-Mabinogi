@@ -1,0 +1,16 @@
+[
+{
+  "modid": "mabinogi",
+  "name": "Mabinogi",
+  "description": "A library mod for use with Mabinogi's mods.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Mabinogi"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
