@@ -1,6 +1,6 @@
 package com.mabinogi.lib;
 
-import org.apache.logging.log4j.Logger;
+import com.mabinogi.lib.logging.LogHandler;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -14,15 +14,15 @@ public class Mabinogi
 {
     public static final String MODID = "mabinogi";
     public static final String NAME = "Mabinogi";
-    public static final String VERSION = "0.0.1";
+    public static final String VERSION = "0.0.2";
     
-    public static Logger LOG;
+    public static LogHandler LOG;
 
     @EventHandler
     public void pre(FMLPreInitializationEvent event)
     {
     	//initialise logging
-        LOG = event.getModLog();
+        LOG = new LogHandler(event.getModLog(), LogHandler.LEVEL_WARN);
     }
 
     @EventHandler

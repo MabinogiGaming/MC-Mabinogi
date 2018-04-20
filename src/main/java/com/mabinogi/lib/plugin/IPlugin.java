@@ -7,16 +7,19 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public interface IPlugin {
 	
-	public int getPriority();
+	default public int getPriority()
+	{
+		return 0;
+	}
 	
-	public void start();
+	default public void start() { };
 	
-    public void pre(FMLPreInitializationEvent event);
+	public void pre(FMLPreInitializationEvent event);
     
-    public void init(FMLInitializationEvent event);
+	public void init(FMLInitializationEvent event);
     
-    public void post(FMLPostInitializationEvent event);
+	public void post(FMLPostInitializationEvent event);
     
-    public void complete(FMLLoadCompleteEvent event);
+	public void complete(FMLLoadCompleteEvent event);
 
 }
