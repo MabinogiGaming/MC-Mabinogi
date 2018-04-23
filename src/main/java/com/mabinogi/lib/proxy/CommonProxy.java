@@ -1,5 +1,7 @@
 package com.mabinogi.lib.proxy;
 
+import com.mabinogi.lib.registry.RegistryManager;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
@@ -12,7 +14,10 @@ public class CommonProxy {
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) 
     {
-    	
+    	for (Item item : RegistryManager.instance.getRegistryItems())
+    	{
+    		event.getRegistry().register(item);
+    	}
     }
 	
 	@SubscribeEvent
