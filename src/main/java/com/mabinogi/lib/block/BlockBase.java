@@ -2,7 +2,9 @@ package com.mabinogi.lib.block;
 
 import org.lwjgl.input.Keyboard;
 
+import com.mabinogi.lib.Mabinogi;
 import com.mabinogi.lib.block.iface.IFacing;
+import com.mabinogi.lib.tile.iface.IGuiTile;
 import com.mabinogi.lib.util.CollectionUtil;
 
 import net.minecraft.block.material.Material;
@@ -11,6 +13,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -108,6 +111,20 @@ public abstract class BlockBase extends BlockAbstract {
     	{
     		((IFacing) this).setFacing(world, pos, state, facing);
     		return true;
+    	}
+    	
+    	//tile stuff
+    	if (this instanceof BlockTile)
+    	{
+    		TileEntity tile = world.getTileEntity(pos);
+    		
+    		if (tile != null)
+    		{
+    			if (tile instanceof IGuiTile)
+    			{
+    				player.openGui(Mabinogi.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
+    			}
+    		}
     	}
     	
     	return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);

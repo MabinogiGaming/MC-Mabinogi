@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 @Mod(modid = Settings.MODID, name = Settings.NAME, version = Settings.VERSION)
 public class Mabinogi
@@ -33,7 +34,8 @@ public class Mabinogi
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-
+    	//register gui proxy
+		NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
     }
     
     @EventHandler
