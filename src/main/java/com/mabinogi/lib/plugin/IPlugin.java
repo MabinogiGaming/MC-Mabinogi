@@ -1,5 +1,6 @@
 package com.mabinogi.lib.plugin;
 
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -21,5 +22,7 @@ public interface IPlugin {
 	public void post(FMLPostInitializationEvent event);
     
 	public void complete(FMLLoadCompleteEvent event);
+	
+	public void configPlugin(Configuration cfg);
 
 }

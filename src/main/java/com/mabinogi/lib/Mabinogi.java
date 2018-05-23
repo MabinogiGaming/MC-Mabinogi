@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-@Mod(modid = Settings.MODID, name = Settings.NAME, version = Settings.VERSION)
+@Mod(modid = MabinogiSettings.MODID, name = MabinogiSettings.NAME, version = MabinogiSettings.VERSION)
 public class Mabinogi
 {
 	@Instance
