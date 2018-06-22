@@ -3,10 +3,9 @@ package com.mabinogi.lib.gui.container;
 import com.mabinogi.lib.tile.iface.IGuiTile;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 
 public abstract class ContainerBase extends Container {
 	
@@ -30,17 +29,9 @@ public abstract class ContainerBase extends Container {
 	{
 		return tile.isPlayerInRange(player);
 	}
-	
-	/**
-     * Called when a player shift-clicks on a slot.
-     */
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
-    {
-        Slot slot = this.inventorySlots.get(index);
-        return slot != null ? slot.getStack() : ItemStack.EMPTY;
-    }
 
-    /*public void detectAndSendChanges()
+	@Override
+    public void detectAndSendChanges()
     {
         super.detectAndSendChanges();
         
@@ -48,8 +39,11 @@ public abstract class ContainerBase extends Container {
         	
         for (int i = 0; i < listeners.size(); i++)
 		{
-			tile.sendUpdateMessageGUI(this, (IContainerListener) listeners.get(i));
+        	if (listeners.get(i) instanceof EntityPlayerMP)
+    		{
+    			tile.getNetworkHandler().network.sendTo(tile.writeMessageGui(), (EntityPlayerMP) listeners.get(i));
+    		}
 		}
-    }*/
+    }
 
 }

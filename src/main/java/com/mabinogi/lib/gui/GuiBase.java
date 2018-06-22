@@ -4,15 +4,16 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mabinogi.lib.MabinogiSettings;
 import com.mabinogi.lib.gui.container.ContainerBase;
 import com.mabinogi.lib.gui.widget.WidgetBase;
 import com.mabinogi.lib.tile.iface.IGuiTile;
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class GuiBase extends GuiContainer {
+public abstract class GuiBase extends GuiAbstract {
+	
+	private final ResourceLocation widgetTexture = new ResourceLocation(MabinogiSettings.MODID + ":textures/gui/widgets.png");
 
 	public ArrayList<WidgetBase> widgets = new ArrayList<>();
 	
@@ -28,7 +29,20 @@ public abstract class GuiBase extends GuiContainer {
 		ySize = container.getGuiHeight();
 	}
 	
+	public ResourceLocation getWidgetTexture()
+	{
+		return widgetTexture;
+	}
+	
 	public abstract ResourceLocation getGuiTexture();
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks)
+	{
+		drawDefaultBackground();
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        renderHoveredToolTip(mouseX, mouseY);
+	}
 
     /**
      * Draw the background layer (everything behind the items)
@@ -42,7 +56,7 @@ public abstract class GuiBase extends GuiContainer {
         
         for (WidgetBase widget : widgets)
         {
-        	widget.draw(guiLeft, guiTop);
+    		widget.draw(guiLeft, guiTop);
         }
     }
 	
@@ -57,11 +71,6 @@ public abstract class GuiBase extends GuiContainer {
     		mouseOver.drawTooltip(mouseX - guiLeft, mouseY - guiTop);
     	}
     }
-	
-	public FontRenderer getFontRenderer()
-	{
-		return fontRenderer;
-	}
 	
 	public WidgetBase getWidgetForPosition(int x, int y)
 	{

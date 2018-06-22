@@ -4,8 +4,10 @@ import org.lwjgl.input.Keyboard;
 
 import com.mabinogi.lib.Mabinogi;
 import com.mabinogi.lib.block.iface.IFacing;
+import com.mabinogi.lib.tile.TileInventory;
 import com.mabinogi.lib.tile.iface.IGuiTile;
 import com.mabinogi.lib.util.CollectionUtil;
+import com.mabinogi.lib.util.FluidUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
@@ -18,6 +20,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 /**
  * Basic block with no tile associated, also handles IFacing blocks
@@ -120,9 +124,22 @@ public abstract class BlockBase extends BlockAbstract {
     		
     		if (tile != null)
     		{
+    			if (tile instanceof TileInventory && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null))
+    			{
+    				ItemStack heldItem = player.getHeldItem(hand);
+        			IFluidHandler handler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+        			
+        			if (FluidUtil.isFluidItemHandler(heldItem)) 
+        			{
+        				FluidUtil.fluidItemInteract(heldItem, handler, player, hand);
+        				return true;
+    				}
+    			}
+    			
     			if (tile instanceof IGuiTile)
     			{
     				player.openGui(Mabinogi.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
+    				return true;
     			}
     		}
     	}

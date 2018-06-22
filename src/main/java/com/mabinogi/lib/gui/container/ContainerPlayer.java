@@ -1,8 +1,5 @@
 package com.mabinogi.lib.gui.container;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
 import com.mabinogi.lib.tile.iface.IGuiTile;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,8 +8,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public abstract class ContainerPlayer extends ContainerBase {
-	
-	public List<Slot> swapSlots = Lists.<Slot>newArrayList();
 
 	public ContainerPlayer(InventoryPlayer inventory, IGuiTile tile)
 	{
@@ -45,64 +40,41 @@ public abstract class ContainerPlayer extends ContainerBase {
 	/**
      * Called when a player shift-clicks on a slot.
      */
-    public ItemStack transferStackInSlot(EntityPlayer player, int slotNumber)
+    public ItemStack transferStackInSlot(EntityPlayer player, int index)
     {
-    	ItemStack newStack = null;
-        Slot slot = (Slot) inventorySlots.get(slotNumber);
-        
-        //int invSize = (tile == null || ((tile instanceof TileInventory)) ? 0 : tile.getSizeInventory();
-        int invSize = 0;
-        int playerSize = invSize + 36;
+    	int numRows = 3;
     	
+    	ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.inventorySlots.get(index);
+
         if (slot != null && slot.getHasStack())
         {
-        	ItemStack stack = slot.getStack();
-            newStack = stack.copy();
-            
-            if (slotNumber < invSize)
+            ItemStack itemstack1 = slot.getStack();
+            itemstack = itemstack1.copy();
+
+            if (index < numRows * 9)
             {
-            	if (!mergeItemStack(stack, invSize, playerSize, true))
+                if (!this.mergeItemStack(itemstack1, numRows * 9, this.inventorySlots.size(), true))
                 {
                     return ItemStack.EMPTY;
                 }
-
-                slot.onSlotChange(stack, newStack);
             }
-            else
+            else if (!this.mergeItemStack(itemstack1, 0, numRows * 9, false))
             {
-            	/*if (tile instanceof TileInventory)
-            	{
-	            	for (int i = 0; i < invSize; i++)
-	            	{
-	            		if (tile.isItemValidForSlot(i, stack))
-	                    {
-	            			if (!mergeItemStack(stack, i, i + 1, false))
-	            			{
-								return ItemStack.EMPTY;	            			
-	            			}
-	                    }
-	            	}
-            	}*/
+                return ItemStack.EMPTY;
             }
 
-            if (stack.isEmpty())
+            if (itemstack1.isEmpty())
             {
-            	slot.putStack(ItemStack.EMPTY);
+                slot.putStack(ItemStack.EMPTY);
             }
             else
             {
                 slot.onSlotChanged();
             }
-            
-            if (stack.getCount() == newStack.getCount())
-            {
-                return ItemStack.EMPTY;
-            }
-
-            slot.onTake(player, stack);
         }
-    	
-        return newStack;
+
+        return itemstack;
     }
 
 }

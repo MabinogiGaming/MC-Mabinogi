@@ -15,6 +15,8 @@ public interface IPlugin {
 	
 	default public void start() { };
 	
+	public void configPlugin(Configuration cfg);
+	
 	public void pre(FMLPreInitializationEvent event);
     
 	public void init(FMLInitializationEvent event);
@@ -22,7 +24,5 @@ public interface IPlugin {
 	public void post(FMLPostInitializationEvent event);
     
 	public void complete(FMLLoadCompleteEvent event);
-	
-	public void configPlugin(Configuration cfg);
 
 }
